@@ -1,6 +1,12 @@
 import type { AppProps } from "next/app";
 import localFont from "next/font/local";
+import { useRouter } from "next/router";
+import "lenis/dist/lenis.css";
 import "@/styles/trenox.css";
+import SmoothScroll from "@/components/layout/SmoothScroll";
+import { CartProvider } from "@/context/CartContext";
+import { useRevealOnScroll } from "@/hooks/useRevealOnScroll";
+import { useScrollScrubbers } from "@/hooks/useScrollScrubbers";
 
 const interTight = localFont({
   src: [
@@ -19,6 +25,11 @@ const greatVibes = localFont({
 });
 
 export default function App({ Component, pageProps }: AppProps) {
+  const { asPath } = useRouter();
+  const route = asPath.split("#")[0];
+  useRevealOnScroll(route);
+  useScrollScrubbers(route);
+
   return (
     <>
       {/* The template stylesheet reads its typefaces from these variables. */}
@@ -28,7 +39,11 @@ export default function App({ Component, pageProps }: AppProps) {
           --font-great-vibes: ${greatVibes.style.fontFamily};
         }
       `}</style>
-      <Component {...pageProps} />
+      <CartProvider>
+        <SmoothScroll>
+          <Component {...pageProps} />
+        </SmoothScroll>
+      </CartProvider>
     </>
   );
 }

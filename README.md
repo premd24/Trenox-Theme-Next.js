@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Trenox — Next.js (Pages Router)
 
-## Getting Started
-
-First, run the development server:
+The Trenox trading/crypto/finance home page, rebuilt in Next.js from the
+original HTML template with the same design, markup and interactions.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev     # http://localhost:3000
+npm run build && npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Structure
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+pages/
+  _app.tsx            global stylesheet + Inter Tight / Great Vibes via next/font/local
+  _document.tsx       <html>, favicon, the `js` class that enables scroll reveals
+  index.tsx           home page: composes the sections below
+components/
+  layout/             Navbar, PagesDropdown, CartModal, Footer, NewsletterForm
+  sections/           one component per page section, in page order:
+                      Hero, SuccessRate, BrandLogo, WhyChooseUs, Features,
+                      Languages, Testimonials, Pricing, Compare, Faq, Cta
+  ui/                 ShortTag, SectionHeading, SubHeading, Buttons
+data/
+  home.ts             section content (stats, services, languages, testimonials,
+                      plans, comparison table, FAQs)
+  navigation.ts       navbar, mega-menu and footer links
+hooks/
+  useRevealOnScroll   adds `.is-in` as elements enter the viewport
+  useCart             the template's localStorage demo cart
+lib/utils.ts          img() path helper, cx() class joiner
+styles/
+  trenox.css          the template stylesheet (asset URLs point at /images)
+  fonts/              self-hosted woff2 files
+public/images/        all template images
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Content edits go in `data/`; layout and styling stay in the section
+components and `styles/trenox.css`.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Only the home page exists, so links to the template's other pages are `#`
+placeholders; About / Features / Pricing / FAQ scroll to their sections.
