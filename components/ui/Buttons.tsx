@@ -7,9 +7,9 @@ import { cx, img } from "@/lib/utils";
 type ButtonProps = { href: string; children: string; className?: string };
 
 /** Solid white button with an arrow; the gradient fills in on hover. */
-export function PrimaryButton({ href, children }: ButtonProps) {
+export function PrimaryButton({ href, children, className }: ButtonProps) {
   return (
-    <SiteLink className="button-01 inline-block" href={href}>
+    <SiteLink className={cx("button-01", className, "inline-block")} href={href}>
       <div className="button-text-icon-wrap">
         <div className="button-text-wrapper">
           <div className="button-text-01 text-black">{children}</div>

@@ -1,7 +1,7 @@
 # Trenox — Next.js (Pages Router)
 
-The Trenox trading/crypto/finance home page, rebuilt in Next.js from the
-original HTML template with the same design, markup and interactions.
+The Trenox trading/crypto/finance template (https://trenox-html.vercel.app), rebuilt in Next.js
+with the same design, markup and interactions on every page.
 
 ```bash
 npm install
@@ -9,35 +9,40 @@ npm run dev     # http://localhost:3000
 npm run build && npm start
 ```
 
+## Pages
+
+| Route | Page |
+| --- | --- |
+| `/`, `/home-v2`, `/home-v3` | Home V1–V3 |
+| `/about-v1`, `/about-v2`, `/about-v3` | About V1–V3 |
+| `/features-v1`, `/features-v2`, `/features-v3` | Features V1–V3 |
+| `/pricing`, `/product/[slug]` | Pricing and the Starter / Pro / Enterprises plans |
+| `/checkout`, `/order-confirmation` | Demo store (cart kept in localStorage) |
+| `/blog`, `/blog/[slug]` | Blog and its six posts |
+| `/integration`, `/integration/[slug]` | Integrations directory and nine integrations |
+| `/faq`, `/contact`, `/career`, `/changelog`, `/license`, `/style-guide` | Inner pages |
+| `/login`, `/register`, `/coming-soon`, `/401`, `/404` | Auth and utility pages |
+
 ## Structure
 
 ```
-pages/
-  _app.tsx            global stylesheet + Inter Tight / Great Vibes via next/font/local
-  _document.tsx       <html>, favicon, the `js` class that enables scroll reveals
-  index.tsx           home page: composes the sections below
+pages/                one file per route; dynamic routes use getStaticPaths
 components/
-  layout/             Navbar, PagesDropdown, CartModal, Footer, NewsletterForm
-  sections/           one component per page section, in page order:
-                      Hero, SuccessRate, BrandLogo, WhyChooseUs, Features,
-                      Languages, Testimonials, Pricing, Compare, Faq, Cta
-  ui/                 ShortTag, SectionHeading, SubHeading, Buttons
-data/
-  home.ts             section content (stats, services, languages, testimonials,
-                      plans, comparison table, FAQs)
-  navigation.ts       navbar, mega-menu and footer links
-hooks/
-  useRevealOnScroll   adds `.is-in` as elements enter the viewport
-  useCart             the template's localStorage demo cart
-lib/utils.ts          img() path helper, cx() class joiner
-styles/
-  trenox.css          the template stylesheet (asset URLs point at /images)
-  fonts/              self-hosted woff2 files
+  layout/             Navbar (+ PagesDropdown, CartModal), Footer, FooterV3, SmoothScroll (Lenis)
+  sections/           one component per page section; home sections at the top level,
+                      other pages in a folder per page (about-v1/, pricing/, blog/, ...)
+  ui/                 ShortTag, SectionHeading, SubHeading, Buttons, SiteLink, PageHead
+context/CartContext   the demo cart and last order
+data/                 page content as typed data (home.ts, pricing.ts, blog.ts, ...)
+hooks/                useRevealOnScroll, useScrollScrubbers (run per route from _app),
+                      useCollapse, useTabs, useSlider, useDropdown, useDemoForm
+styles/trenox.css     the template stylesheet (asset URLs point at /images)
+styles/fonts/         self-hosted Inter Tight and Great Vibes
 public/images/        all template images
 ```
 
-Content edits go in `data/`; layout and styling stay in the section
-components and `styles/trenox.css`.
+Content edits go in `data/`; layout and styling stay in the section components and
+`styles/trenox.css`.
 
-Only the home page exists, so links to the template's other pages are `#`
-placeholders; About / Features / Pricing / FAQ scroll to their sections.
+`NEXT_DIST_DIR` (see `next.config.ts`) lets a second build or dev server run next to
+`npm run dev` without sharing `.next`, e.g. `NEXT_DIST_DIR=.next-build npx next build`.

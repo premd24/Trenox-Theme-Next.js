@@ -1,4 +1,4 @@
-import Head from "next/head";
+import PageHead from "@/components/ui/PageHead";
 import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
 import BrandLogoSection from "@/components/sections/BrandLogoSection";
@@ -21,17 +21,7 @@ export default function Home() {
 
   return (
     <>
-      <Head>
-        <title>{TITLE}</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="description" content={DESCRIPTION} />
-        <meta property="og:title" content={TITLE} />
-        <meta property="og:description" content={DESCRIPTION} />
-        <meta property="og:type" content="website" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={TITLE} />
-        <meta name="twitter:description" content={DESCRIPTION} />
-      </Head>
+      <PageHead title={TITLE} description={DESCRIPTION} />
       <div className="page-wrapper">
         <div className="main-hero home-v1-hero">
           <Navbar />

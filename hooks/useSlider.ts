@@ -20,9 +20,9 @@ export function useSlider({ count, autoplay = 0, duration = 500 }: SliderOptions
     if (!track) return;
     const slides = track.children;
     if (slides.length < 2) return;
-    const step = slides[1].getBoundingClientRect().left - slides[0].getBoundingClientRect().left;
+    const stride = slides[1].getBoundingClientRect().left - slides[0].getBoundingClientRect().left;
     track.style.transitionDuration = `${duration}ms`;
-    track.style.transform = `translateX(${-index * step}px)`;
+    track.style.transform = `translateX(${-index * stride}px)`;
   }, [index, duration]);
 
   useEffect(() => {
@@ -48,12 +48,17 @@ export function useSlider({ count, autoplay = 0, duration = 500 }: SliderOptions
     go(i);
     restart();
   };
+  // Relative moves read the latest index, so rapid clicks all count.
+  const step = (delta: number) => {
+    setIndex((i) => (((i + delta) % count) + count) % count);
+    restart();
+  };
 
   return {
     index,
     trackRef,
-    prev: () => goAndRestart(index - 1),
-    next: () => goAndRestart(index + 1),
+    prev: () => step(-1),
+    next: () => step(1),
     goTo: goAndRestart,
     rootProps: {
       onMouseEnter: stop,
@@ -64,7 +69,7 @@ export function useSlider({ count, autoplay = 0, duration = 500 }: SliderOptions
       onTouchEnd: (e: TouchEvent) => {
         if (startX.current === null) return;
         const dx = e.changedTouches[0].clientX - startX.current;
-        if (Math.abs(dx) > 40) goAndRestart(index + (dx < 0 ? 1 : -1));
+        if (Math.abs(dx) > 40) step(dx < 0 ? 1 : -1);
         startX.current = null;
       },
     },

@@ -3,9 +3,9 @@ import SubHeading from "@/components/ui/SubHeading";
 import { comparePlans, compareRows } from "@/data/home";
 import { cx } from "@/lib/utils";
 
-export default function CompareSection() {
+export default function CompareSection({ className }: { className?: string }) {
   return (
-    <section className="compare">
+    <section className={cx("compare", className)}>
       <div className="container">
         <div className="compare-wrap">
           <div className="compare-top">

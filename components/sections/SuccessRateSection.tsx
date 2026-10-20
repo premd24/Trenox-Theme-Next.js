@@ -1,10 +1,10 @@
 import { Fragment } from "react";
 import { ratingStars, stats, type CounterPart } from "@/data/home";
-import { img } from "@/lib/utils";
+import { cx, img } from "@/lib/utils";
 
-export default function SuccessRateSection() {
+export default function SuccessRateSection({ className }: { className?: string }) {
   return (
-    <section className="success-rate">
+    <section className={cx("success-rate", className)}>
       <div className="container">
         <div className="success-rate-wrap reveal-up-blur">
           <div className="success-rate-top">
